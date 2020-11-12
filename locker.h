@@ -72,11 +72,8 @@ public:
     ~cond(){
         pthread_cond_destroy(&mycond);
     }
-    bool wait(){
-        pthread_mutex_lock(&mtx);
-        int ret = pthread_cond_wait(&mycond, &mtx);
-        pthread_mutex_unlock(&mtx);
-        return ret;
+    bool wait(pthread_mutex_t mtx){
+        return pthread_cond_wait(&mycond, &mtx) == 0;
     }
     bool timeoutWait(pthread_mutex_t Mtx, struct timespec ts){
         pthread_mutex_lock(&mtx);
